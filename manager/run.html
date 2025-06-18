@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 <html>
-
 <body>
     <button onclick="runApp()">Run</button>
+    <button onclick="stopApp()">Stop</button>
     <pre id="output"></pre>
 
     <script>
+        let runId = null;
+
         async function runApp() {
             const res = await fetch("http://localhost:5000/run", { method: "POST" });
             const data = await res.json();
+            runId = data.run_id;
             document.getElementById("output").textContent =
-                `Frontend: ${data.frontend_url}\nBackend: ${data.backend_url}`;
+                `Frontend: ${data.frontend_url}\nBackend: ${data.backend_url}\nRun ID: ${data.run_id}`;
+        }
+
+        async function stopApp() {
+            if (!runId) {
+                alert("No container is running.");
+                return;
+            }
+
+            const res = await fetch("http://localhost:5000/stop", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ run_id: runId }),
+            });
+            const data = await res.json();
+            document.getElementById("output").textContent += `\n${data.message || data.error}`;
+            runId = null;
         }
     </script>
 </body>
-
 </html>
