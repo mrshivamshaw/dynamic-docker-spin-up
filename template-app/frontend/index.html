@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <h1>Hello from React (kindahjdubkubd    )</h1>
+    <script>
+        // on first load, fetch the backend
+        window.addEventListener('load', async () => {
+            const res = await fetch("http://localhost:5912/api/hello");
+            const data = await res.json();
+            console.log(data);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <button onclick="runApp()">Run</button>
+    <pre id="output"></pre>
+
+    <script>
+        async function runApp() {
+            const res = await fetch("http://localhost:5000/run", { method: "POST" });
+            const data = await res.json();
+            document.getElementById("output").textContent =
+                `Frontend: ${data.frontend_url}\nBackend: ${data.backend_url}`;
+        }
+    </script>
+</body>
+
+</html>
